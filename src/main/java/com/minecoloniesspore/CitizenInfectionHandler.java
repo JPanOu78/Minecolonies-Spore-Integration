@@ -10,12 +10,15 @@ import com.minecolonies.core.datalistener.model.Disease;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -26,9 +29,11 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -172,6 +177,27 @@ public class CitizenInfectionHandler {
     }
 
     /**
+     * Prevents Mycelium infection periodic damage from hurting Citizens.
+     * Canceling this damage stops citizens from stuttering while walking and
+     * prevents them from being kicked / bounced out of beds when sleeping.
+     */
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onCitizenIncomingDamage(LivingIncomingDamageEvent event) {
+        if (event.getEntity() instanceof AbstractEntityCitizen citizen) {
+            DamageSource source = event.getSource();
+            String msgId = source.getMsgId();
+
+            boolean isMyceliumDamage = (msgId != null && (msgId.contains("mycelium") || msgId.contains("overtake")))
+                    || source.is(ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath("spore", "mycelium_overtake")));
+
+            if (isMyceliumDamage) {
+                event.setCanceled(true);
+                event.setAmount(0.0F);
+            }
+        }
+    }
+
+    /**
      * Listens for damage dealt to citizens by Spore mobs or spore effects.
      */
     @SubscribeEvent
@@ -256,11 +282,13 @@ public class CitizenInfectionHandler {
                 }
             }
 
-            // Infection symptoms: spore particles, slowness and weakness
+            // Infection symptoms: spore particles, slowness and weakness (only when awake)
             if (citizen.tickCount % 20 == 0 && citizen.level() instanceof ServerLevel sl) {
                 sl.sendParticles(ParticleTypes.MYCELIUM, citizen.getX(), citizen.getY() + 1.2D, citizen.getZ(), 4, 0.2D, 0.3D, 0.2D, 0.02D);
-                citizen.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 0, false, false));
-                citizen.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40, 0, false, false));
+                if (!citizen.isSleeping()) {
+                    citizen.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 0, false, false));
+                    citizen.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40, 0, false, false));
+                }
             }
         }
     }
