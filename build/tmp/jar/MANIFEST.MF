@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: minecolonies_spore
+Specification-Vendor: mrzero784
+Specification-Version: 1
+Implementation-Title: minecolonies_spore
+Implementation-Version: 1.0.0
+Implementation-Vendor: mrzero784
+Implementation-Timestamp: 2026-11-01T20:10:43+0700
+

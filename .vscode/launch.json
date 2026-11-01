@@ -1,0 +1,49 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Client",
+      "presentation": {
+        "group": "Mod Development - minecolonies_spore",
+        "order": 0
+      },
+      "projectName": "minecolonies_spore",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@D:\\Minecraft Mod Dev\\Minecolonies x Spore\\build\\moddev\\clientRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@D:\\Minecraft Mod Dev\\Minecolonies x Spore\\build\\moddev\\clientRunVmArgs.txt",
+        "-Dfml.modFolders\u003dminecolonies_spore%%D:\\Minecraft Mod Dev\\Minecolonies x Spore\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "Server",
+      "presentation": {
+        "group": "Mod Development - minecolonies_spore",
+        "order": 1
+      },
+      "projectName": "minecolonies_spore",
+      "mainClass": "net.neoforged.devlaunch.Main",
+      "args": [
+        "@D:\\Minecraft Mod Dev\\Minecolonies x Spore\\build\\moddev\\serverRunProgramArgs.txt"
+      ],
+      "vmArgs": [
+        "@D:\\Minecraft Mod Dev\\Minecolonies x Spore\\build\\moddev\\serverRunVmArgs.txt",
+        "-Dfml.modFolders\u003dminecolonies_spore%%D:\\Minecraft Mod Dev\\Minecolonies x Spore\\bin\\main"
+      ],
+      "cwd": "${workspaceFolder}\\run",
+      "env": {},
+      "console": "internalConsole",
+      "shortenCommandLine": "none"
+    }
+  ]
+}
