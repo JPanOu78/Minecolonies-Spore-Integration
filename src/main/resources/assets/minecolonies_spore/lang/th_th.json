@@ -1,4 +1,7 @@
 {
   "mod.minecolonies_spore.name": "Minecolonies x Spore Integration",
-  "mod.minecolonies_spore.desc": "ช่วยให้ทหารยามของ Minecolonies ตรวจจับและโจมตีม็อบ Spore ได้อัตโนมัติ"
+  "mod.minecolonies_spore.desc": "ช่วยให้ทหารยามของ Minecolonies ตรวจจับและโจมตีม็อบ Spore ได้อัตโนมัติ",
+  "com.minecolonies.coremod.diseases.mycelium": "การติดเชื้อรา Mycelium",
+  "message.minecolonies_spore.cured_by_doctor": "%s ได้รับการรักษาการติดเชื้อรา Mycelium จากหมอทันทีด้วยน้ำแข็ง!",
+  "message.minecolonies_spore.cured_by_player": "%s ได้รับการรักษาสถานะ Mycelium ด้วยน้ำแข็งแล้ว!"
 }

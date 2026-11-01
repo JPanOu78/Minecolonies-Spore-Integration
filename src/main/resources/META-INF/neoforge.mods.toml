@@ -1,32 +1,34 @@
 modLoader="javafml"
-loaderVersion="${loader_version_range}"
-license="${mod_license}"
+loaderVersion="[4,)"
+license="GPL-3.0"
 
 [[mods]]
-modId="${mod_id}"
-version="${mod_version}"
-displayName="${mod_name}"
-authors="${mod_authors}"
-description='''${mod_description}'''
+modId="minecolonies_spore"
+version="1.0.0"
+displayName="Minecolonies x Spore Integration"
+authors="mrzero784"
+description='''
+Integration mod enabling all Minecolonies guard professions to proactively detect and attack Fungal Infection: Spore infected entities, protects colony territory from natural monster spawning, and introduces citizen fungal infection mechanics.
+'''
 
 [[dependencies.minecolonies_spore]]
     modId="neoforge"
     type="required"
-    versionRange="${neo_version_range}"
+    versionRange="[21.1,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.minecolonies_spore]]
     modId="minecraft"
     type="required"
-    versionRange="${minecraft_version_range}"
+    versionRange="[1.21.1,1.22)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.minecolonies_spore]]
     modId="minecolonies"
     type="required"
-    versionRange="[1.21.1-1.1.0,)"
+    versionRange="[1.0,)"
     ordering="AFTER"
     side="BOTH"
 
@@ -35,4 +37,3 @@ description='''${mod_description}'''
     type="optional"
     ordering="AFTER"
     side="BOTH"
-

@@ -1,4 +1,7 @@
 {
   "mod.minecolonies_spore.name": "Minecolonies x Spore Integration",
-  "mod.minecolonies_spore.desc": "Enables Minecolonies guards to detect and attack Fungal Infection: Spore mobs."
+  "mod.minecolonies_spore.desc": "Enables Minecolonies guards to detect and attack Fungal Infection: Spore mobs.",
+  "com.minecolonies.coremod.diseases.mycelium": "Mycelium Infection",
+  "message.minecolonies_spore.cured_by_doctor": "%s was treated and cured from Mycelium infection by the doctor using Ice!",
+  "message.minecolonies_spore.cured_by_player": "%s was cured from Mycelium infection using Ice!"
 }

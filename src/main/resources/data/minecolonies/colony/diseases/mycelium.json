@@ -1,0 +1,10 @@
+{
+  "name": "com.minecolonies.coremod.diseases.mycelium",
+  "rarity": 0,
+  "items": [
+    {
+      "id": "minecraft:ice",
+      "count": 1
+    }
+  ]
+}
