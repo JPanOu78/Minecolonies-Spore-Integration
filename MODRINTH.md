@@ -47,14 +47,16 @@ In vanilla setups, MineColonies guards do not recognize Spore infected monsters 
 
 ---
 
-## 📦 Requirements
+## 📦 Requirements & Compatibility
 
-| Mod | Version | Required? |
+| Mod | Tested Version | Required? |
 | :--- | :--- | :--- |
 | **Minecraft** | `1.21.1` | **Required** |
-| **NeoForge** | `21.1.x`+ | **Required** |
-| **MineColonies** | `1.21.1` (with Structurize & BlockUI) | **Required** |
-| **Fungal Infection: Spore** | `1.21.1` | **Required** |
+| **NeoForge** | `21.1.249` (or `21.1.84`+) | **Required** |
+| **[MineColonies](https://modrinth.com/mod/minecolonies)** | `1.1.1403-1.21.1` | **Required** |
+| **[Structurize](https://modrinth.com/mod/structurize)** | `1.0.832-1.21.1` | **Required** (MineColonies Core) |
+| **[BlockUI](https://modrinth.com/mod/blockui)** | `1.0.209-1.21.1` | **Required** (MineColonies Core) |
+| **[Fungal Infection: Spore](https://modrinth.com/mod/spore)** | `2.2.0j` (`spore_1.21.1_2.2.0j_neo.jar`) | **Required** |
 
 ---
 
@@ -78,3 +80,4 @@ In vanilla setups, MineColonies guards do not recognize Spore infected monsters 
 * **ระบบติดเชื้อ Mycelium:** Citizen สามารถติดเชื้อราได้ แต่ปิดดาเมจกระตุกทำให้เดินไม่ชะงักและนอนเตียงไม่เด้งหลุด
 * **การรักษา 2 ทางเลือก:** เชื้อราสามารถหายไปเองได้ตามเวลาปกติ (~60 วินาที) หรือไปให้หมอที่โรงพยาบาลรักษาทันทีด้วยน้ำแข็ง 1 ก้อน (ผู้เล่นสามารถถือน้ำแข็งคลิกขวารักษาได้เองด้วย)
 * **กลายร่างเมื่อตาย:** หาก Citizen เสียชีวิตระหว่างติดเชื้อ จะกลายร่างเป็น Infected Villager พร้อมคงชื่อเดิมของ Citizen ไว้
+
