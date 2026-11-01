@@ -177,28 +177,11 @@ public class CitizenInfectionHandler {
     }
 
     /**
-     * Converts a deceased citizen into an infected entity with matching profession and identity.
+     * Converts a deceased citizen into an infected villager entity with matching identity.
      */
     private static void transformCitizenToInfected(AbstractEntityCitizen citizen, ServerLevel sl) {
-        boolean isGuard = false;
-        try {
-            var jobHandler = citizen.getCitizenJobHandler();
-            if (jobHandler != null && jobHandler.getColonyJob() != null) {
-                var job = jobHandler.getColonyJob();
-                isGuard = job.isGuard();
-                if (!isGuard && job.getJobRegistryEntry() != null) {
-                    String jobKey = job.getJobRegistryEntry().getKey().toString().toLowerCase();
-                    if (jobKey.contains("guard") || jobKey.contains("knight") ||
-                        jobKey.contains("ranger") || jobKey.contains("gunner") ||
-                        jobKey.contains("mage") || jobKey.contains("druid")) {
-                        isGuard = true;
-                    }
-                }
-            }
-        } catch (Exception ignored) {}
-
-        // Select entity type: Guard -> spore:knight or spore:inf_human; Civilian -> spore:inf_villager or spore:inf_human
-        String primaryId = isGuard ? "spore:knight" : "spore:inf_villager";
+        // Guards and civilians alike transform into infected villager
+        String primaryId = "spore:inf_villager";
         EntityType<?> targetType = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(primaryId));
         if (targetType == null) {
             targetType = BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse("spore:inf_human"));
