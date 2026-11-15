@@ -1,0 +1,31 @@
+{
+  "com.minecolonies.research.combat.spore_damage_1.name": "ยุทธวิธีต้านสปอร์ I",
+  "com.minecolonies.research.combat.spore_damage_1.subtitle": "ฝึกฝนการโจมตีและเสริมเกราะป้องกันสิ่งมีชีวิตสปอร์ (+25% Damage & +25% Defense)",
+  "com.minecolonies.research.combat.spore_damage_2.name": "ผู้กำจัดสปอร์ II",
+  "com.minecolonies.research.combat.spore_damage_2.subtitle": "พัฒนาเทคนิคการตัดทำลายเส้นใยกลายพันธุ์ (+50% Damage)",
+  "com.minecolonies.research.combat.spore_damage_3.name": "ผู้กำจัดสปอร์ III",
+  "com.minecolonies.research.combat.spore_damage_3.subtitle": "ใช้ยุทธวิธีและอาวุธไฟทำลายล้างการติดเชื้อ (+75% Damage)",
+  "com.minecolonies.research.combat.spore_damage_4.name": "ผู้กำจัดสปอร์ IV",
+  "com.minecolonies.research.combat.spore_damage_4.subtitle": "หน่วยพิฆาตสปอร์ระดับผู้เชี่ยวชาญ (+100% Damage)",
+  "com.minecolonies.research.combat.spore_damage_5.name": "สุดยอดผู้กำจัดสปอร์ V",
+  "com.minecolonies.research.combat.spore_damage_5.subtitle": "แสนยานุภาพสังหารสปอร์ขั้นสูงสุด กวาดล้างสิ่งมีชีวิตกลายพันธุ์ (+125% Damage)",
+
+  "com.minecolonies.research.effects.spore_damage.description": "เพิ่มพลังโจมตีของชาวบ้านและทหารยามทุกสายต่อสิ่งมีชีวิตจาก Spore mod ขึ้น +25% ถึง +125%",
+
+  "com.minecolonies.research.combat.spore_defense_1.name": "เกราะต้านสปอร์ I",
+  "com.minecolonies.research.combat.spore_defense_1.subtitle": "เสริมชั้นป้องกันและการเคลือบเกราะทนกรดอินทรีย์ (+25% Defense)",
+  "com.minecolonies.research.combat.spore_defense_2.name": "เกราะต้านสปอร์ II",
+  "com.minecolonies.research.combat.spore_defense_2.subtitle": "ใช้โลหะผสมและแผ่นเกราะหนาพิเศษดูดซับแรงกระแทก (+50% Defense)",
+  "com.minecolonies.research.combat.spore_defense_3.name": "เกราะต้านสปอร์ III",
+  "com.minecolonies.research.combat.spore_defense_3.subtitle": "เคลือบผิวเยือกแข็งป้องกันการเจาะของเส้นใย (+75% Defense)",
+  "com.minecolonies.research.combat.spore_defense_4.name": "เกราะต้านสปอร์ IV",
+  "com.minecolonies.research.combat.spore_defense_4.subtitle": "โครงสร้างเกราะนิรภัยชีวภาพขั้นสูง ป้องกันการกระแทกหนัก (+100% Defense)",
+  "com.minecolonies.research.combat.spore_defense_5.name": "สุดยอดเกราะต้านสปอร์ V",
+  "com.minecolonies.research.combat.spore_defense_5.subtitle": "เกราะป้องกันเนเธอไรต์ชีวภาพ ป้องกันการโจมตีจากสปอร์ทุกรูปแบบ (+125% Defense)",
+
+  "com.minecolonies.research.effects.spore_defense.description": "เพิ่มพลังป้องกัน ลดความเสียหายที่ชาวบ้านได้รับจากการโจมตีของม็อบ Spore ขึ้น +25% ถึง +125%",
+
+  "com.minecolonies.research.combat.spore_immunity.name": "ภูมิคุ้มกันเส้นใยสปอร์",
+  "com.minecolonies.research.combat.spore_immunity.subtitle": "พัฒนาแอนติบอดีชีวภาพ ชาวบ้านทุกคนจะไม่ติดเชื้อรา Mycelium อีกต่อไป 100%",
+  "com.minecolonies.research.effects.mycelium_immunity.description": "ชาวบ้านทุกคนในอาณานิคมจะมีภูมิคุ้มกันต่อการติดเชื้อรา Mycelium อย่างสมบูรณ์ 100%"
+}

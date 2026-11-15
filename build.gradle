@@ -86,3 +86,25 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
+def modTestDir = file('C:/Users/Admin/AppData/Roaming/ModrinthApp/profiles/Mod Test/mods')
+
+tasks.register('copyToMods', Copy) {
+    dependsOn tasks.named('jar')
+    doFirst {
+        if (modTestDir.exists()) {
+            fileTree(dir: modTestDir, include: "${project.mod_id}-*.jar").files.each { oldJar ->
+                if (oldJar.name != tasks.named('jar').get().archiveFileName.get()) {
+                    oldJar.delete()
+                }
+            }
+        }
+    }
+    from tasks.named('jar')
+    into modTestDir
+    onlyIf { modTestDir.exists() }
+}
+
+tasks.named('build') {
+    finalizedBy 'copyToMods'
+}
+

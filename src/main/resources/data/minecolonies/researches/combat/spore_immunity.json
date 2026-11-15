@@ -1,0 +1,43 @@
+{
+  "branch": "minecolonies:combat",
+  "costs": [
+    {
+      "count": 32,
+      "item": "minecraft:ice"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:packed_ice"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:blue_ice"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:golden_apple"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:diamond"
+    }
+  ],
+  "effects": [
+    {
+      "id": "minecolonies:effects/mycelium_immunity",
+      "level": 1
+    }
+  ],
+  "icon": "minecraft:milk_bucket",
+  "parentResearch": "minecolonies:combat/spore_defense_2",
+  "requirements": [
+    {
+      "type": "minecolonies:building",
+      "building": "minecolonies:guardtower",
+      "level": 3
+    }
+  ],
+  "researchLevel": 3,
+  "sortOrder": 10,
+  "subtitle": "com.minecolonies.research.combat.spore_immunity.subtitle"
+}

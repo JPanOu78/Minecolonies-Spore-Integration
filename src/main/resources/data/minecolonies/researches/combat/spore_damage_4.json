@@ -1,0 +1,39 @@
+{
+  "branch": "minecolonies:combat",
+  "costs": [
+    {
+      "count": 16,
+      "item": "minecraft:iron_block"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:gold_block"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:diamond"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:ghast_tear"
+    }
+  ],
+  "effects": [
+    {
+      "id": "minecolonies:effects/spore_damage",
+      "level": 4
+    }
+  ],
+  "icon": "minecraft:diamond_sword",
+  "parentResearch": "minecolonies:combat/spore_damage_3",
+  "requirements": [
+    {
+      "type": "minecolonies:building",
+      "building": "minecolonies:guardtower",
+      "level": 4
+    }
+  ],
+  "researchLevel": 4,
+  "sortOrder": 8,
+  "subtitle": "com.minecolonies.research.combat.spore_damage_4.subtitle"
+}

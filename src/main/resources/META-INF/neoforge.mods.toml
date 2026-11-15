@@ -4,7 +4,7 @@ license="GPL-3.0"
 
 [[mods]]
 modId="minecolonies_spore"
-version="1.0.0"
+version="1.0.2"
 displayName="Minecolonies x Spore Integration"
 authors="mrzero784"
 description='''

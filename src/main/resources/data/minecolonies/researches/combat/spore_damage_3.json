@@ -1,0 +1,39 @@
+{
+  "branch": "minecolonies:combat",
+  "costs": [
+    {
+      "count": 64,
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:iron_block"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:blaze_powder"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:diamond"
+    }
+  ],
+  "effects": [
+    {
+      "id": "minecolonies:effects/spore_damage",
+      "level": 3
+    }
+  ],
+  "icon": "minecraft:diamond_sword",
+  "parentResearch": "minecolonies:combat/spore_damage_2",
+  "requirements": [
+    {
+      "type": "minecolonies:building",
+      "building": "minecolonies:guardtower",
+      "level": 3
+    }
+  ],
+  "researchLevel": 3,
+  "sortOrder": 8,
+  "subtitle": "com.minecolonies.research.combat.spore_damage_3.subtitle"
+}

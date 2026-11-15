@@ -1,7 +1,37 @@
 {
   "mod.minecolonies_spore.name": "Minecolonies x Spore Integration",
-  "mod.minecolonies_spore.desc": "Enables Minecolonies guards to detect and attack Fungal Infection: Spore mobs.",
-  "com.minecolonies.coremod.diseases.mycelium": "Mycelium Infection",
-  "message.minecolonies_spore.cured_by_doctor": "%s was treated and cured from Mycelium infection by the doctor using Ice!",
-  "message.minecolonies_spore.cured_by_player": "%s was cured from Mycelium infection using Ice!"
+  "mod.minecolonies_spore.desc": "Enables Minecolonies guards to proactively detect and attack Fungal Infection: Spore mobs.",
+  "com.minecolonies.coremod.diseases.mycelium": "Mycelium Fungal Infection",
+  "message.minecolonies_spore.cured_by_doctor": "%s was cured from Mycelium infection by the colony Doctor using Ice!",
+  "message.minecolonies_spore.cured_by_player": "%s was cured from Mycelium infection with Ice!",
+
+  "com.minecolonies.research.combat.spore_damage_1.name": "Spore Warfare I",
+  "com.minecolonies.research.combat.spore_damage_1.subtitle": "Train colony forces in anti-fungal combat and sealants (+25% Damage & +25% Defense against Spore mobs)",
+  "com.minecolonies.research.combat.spore_damage_2.name": "Spore Slayer II",
+  "com.minecolonies.research.combat.spore_damage_2.subtitle": "Advanced strikes severing mutant tendrils and biomass (+50% Damage against Spore mobs)",
+  "com.minecolonies.research.combat.spore_damage_3.name": "Spore Slayer III",
+  "com.minecolonies.research.combat.spore_damage_3.subtitle": "Tactical incendiary combat doctrine (+75% Damage against Spore mobs)",
+  "com.minecolonies.research.combat.spore_damage_4.name": "Spore Slayer IV",
+  "com.minecolonies.research.combat.spore_damage_4.subtitle": "Master exterminators capable of dismantling hive abominations (+100% Damage against Spore mobs)",
+  "com.minecolonies.research.combat.spore_damage_5.name": "Apex Spore Slayer V",
+  "com.minecolonies.research.combat.spore_damage_5.subtitle": "Supreme anti-fungal devastating lethality (+125% Damage against Spore mobs)",
+
+  "com.minecolonies.research.effects.spore_damage.description": "Increases damage dealt by all colony citizens and guards against Fungal Infection: Spore entities by +25% to +125%.",
+
+  "com.minecolonies.research.combat.spore_defense_1.name": "Spore Resistance I",
+  "com.minecolonies.research.combat.spore_defense_1.subtitle": "Reinforce leather and shields with organic sealants (+25% Defense against Spore)",
+  "com.minecolonies.research.combat.spore_defense_2.name": "Spore Resistance II",
+  "com.minecolonies.research.combat.spore_defense_2.subtitle": "Layered metallurgical plating absorbing heavy kinetic impacts (+50% Defense against Spore)",
+  "com.minecolonies.research.combat.spore_defense_3.name": "Spore Resistance III",
+  "com.minecolonies.research.combat.spore_defense_3.subtitle": "Cryogenic treated armor repelling fungal tendril penetration (+75% Defense against Spore)",
+  "com.minecolonies.research.combat.spore_defense_4.name": "Spore Resistance IV",
+  "com.minecolonies.research.combat.spore_defense_4.subtitle": "High-density reinforced carapace minimizing bludgeoning trauma (+100% Defense against Spore)",
+  "com.minecolonies.research.combat.spore_defense_5.name": "Apex Spore Resistance V",
+  "com.minecolonies.research.combat.spore_defense_5.subtitle": "Impenetrable bio-tempered Netherite barrier against all fungal hostility (+125% Defense against Spore)",
+
+  "com.minecolonies.research.effects.spore_defense.description": "Increases citizen defense, reducing damage taken from Spore mobs by +25% to +125%.",
+
+  "com.minecolonies.research.combat.spore_immunity.name": "Mycelium Immunity",
+  "com.minecolonies.research.combat.spore_immunity.subtitle": "Synthesize advanced anti-fungal antibodies. All citizens become 100% immune to Mycelium infection.",
+  "com.minecolonies.research.effects.mycelium_immunity.description": "Grants complete 100% immunity to Mycelium infection for all citizens in the colony."
 }

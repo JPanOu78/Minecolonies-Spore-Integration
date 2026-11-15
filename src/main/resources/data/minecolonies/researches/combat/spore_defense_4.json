@@ -1,0 +1,39 @@
+{
+  "branch": "minecolonies:combat",
+  "costs": [
+    {
+      "count": 16,
+      "item": "minecraft:iron_block"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:gold_block"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:diamond"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:packed_ice"
+    }
+  ],
+  "effects": [
+    {
+      "id": "minecolonies:effects/spore_defense",
+      "level": 4
+    }
+  ],
+  "icon": "minecraft:diamond_chestplate",
+  "parentResearch": "minecolonies:combat/spore_defense_3",
+  "requirements": [
+    {
+      "type": "minecolonies:building",
+      "building": "minecolonies:guardtower",
+      "level": 4
+    }
+  ],
+  "researchLevel": 4,
+  "sortOrder": 9,
+  "subtitle": "com.minecolonies.research.combat.spore_defense_4.subtitle"
+}

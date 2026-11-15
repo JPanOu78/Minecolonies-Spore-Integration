@@ -26,6 +26,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,27 +42,51 @@ import net.neoforged.neoforge.items.IItemHandler;
 import java.lang.reflect.Field;
 
 /**
- * Handles Fungal Infection for Minecolonies Citizens:
- * 1. Citizens can contract the Mycelium infection when damaged by Spore mobs or standing on fungal blocks.
- * 2. Mycelium status naturally expires and clears on its own after normal duration (no hospital strictly required).
- * 3. If a citizen goes to or is inside the Hospital, the Doctor profession cures them immediately using 1 Ice.
- * 4. Ice (minecraft:ice) is registered as a required cure item for the Hospital.
- * 5. Players can also directly cure an infected citizen with 1 Ice.
- * 6. If an infected citizen succumbs and dies, they transform into an infected Spore entity (inf_villager).
+ * Handles Fungal Infection, Spore Combat Researches, and Immunities for Minecolonies Citizens:
+ * 1. Spore Slayer Researches (Levels 1-5): Citizens deal +25%, +50%, +75%, +100%, +125% damage against Spore mobs.
+ * 2. Spore Defense Researches (Levels 1-5): Citizens gain +25%, +50%, +75%, +100%, +125% defense protection against Spore attacks.
+ * 3. Mycelium Immunity (Level 3 Research): Citizens become completely immune to fungal infection.
+ * 4. Hospital & Ice Cure: Doctors and players can cure citizens using Ice.
+ * 5. Conversion: Succumbing to infection transforms citizens into infected variants.
  */
 public class CitizenInfectionHandler {
 
     public static final String NBT_SPORE_INFECTED = "SporeInfected";
     public static final String NBT_SPORE_INFECT_TIME = "SporeInfectTime";
     public static final String NBT_SPORE_CONVERSION = "SporeInfectionConversion";
+
     public static final ResourceLocation MYCELIUM_EFFECT_ID = ResourceLocation.fromNamespaceAndPath("spore", "mycelium_ef");
     public static final ResourceLocation MYCELIUM_DISEASE_ID = ResourceLocation.fromNamespaceAndPath("minecolonies", "mycelium");
 
+    // Colony Research Effect IDs
+    public static final ResourceLocation EFFECT_SPORE_DAMAGE = ResourceLocation.fromNamespaceAndPath("minecolonies", "effects/spore_damage");
+    public static final ResourceLocation EFFECT_SPORE_DEFENSE = ResourceLocation.fromNamespaceAndPath("minecolonies", "effects/spore_defense");
+    public static final ResourceLocation EFFECT_MYCELIUM_IMMUNITY = ResourceLocation.fromNamespaceAndPath("minecolonies", "effects/mycelium_immunity");
+
     /**
-     * Infects a citizen with the Spore mycelium infection.
+     * Checks if an entity is from the Fungal Infection: Spore mod.
+     */
+    public static boolean isSporeEntity(Entity entity) {
+        if (entity == null) return false;
+        ResourceLocation key = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        return key != null && "spore".equals(key.getNamespace());
+    }
+
+    /**
+     * Checks if a citizen belongs to a colony with active Mycelium Immunity research.
+     */
+    public static boolean hasMyceliumImmunity(AbstractEntityCitizen citizen) {
+        if (citizen == null || citizen.getCitizenColonyHandler() == null) return false;
+        IColony colony = citizen.getCitizenColonyHandler().getColonyOrRegister();
+        if (colony == null || colony.getResearchManager() == null) return false;
+        return colony.getResearchManager().getResearchEffects().getEffectStrength(EFFECT_MYCELIUM_IMMUNITY) > 0;
+    }
+
+    /**
+     * Infects a citizen with the Spore mycelium infection unless immune.
      */
     public static void infectCitizen(AbstractEntityCitizen citizen) {
-        if (citizen.level().isClientSide()) return;
+        if (citizen.level().isClientSide() || hasMyceliumImmunity(citizen)) return;
 
         MobEffect mycelium = BuiltInRegistries.MOB_EFFECT.get(MYCELIUM_EFFECT_ID);
         if (mycelium != null) {
@@ -139,6 +164,9 @@ public class CitizenInfectionHandler {
                 sl.sendParticles(ParticleTypes.SNOWFLAKE, citizen.getX(), citizen.getY() + 1.0D, citizen.getZ(), 25, 0.4D, 0.6D, 0.4D, 0.03D);
                 sl.playSound(null, citizen.blockPosition(), SoundEvents.ZOMBIE_VILLAGER_CURE, SoundSource.NEUTRAL, 1.0F, 1.2F);
                 MinecoloniesSporeIntegration.LOGGER.info("Citizen {} cured from Mycelium by {} using Ice!", citizen.getName().getString(), reason);
+            } else if ("immunity".equals(reason)) {
+                sl.sendParticles(ParticleTypes.ENCHANT, citizen.getX(), citizen.getY() + 1.2D, citizen.getZ(), 20, 0.3D, 0.5D, 0.3D, 0.05D);
+                MinecoloniesSporeIntegration.LOGGER.info("Citizen {} cured from Mycelium via Mycelium Immunity research!", citizen.getName().getString());
             } else {
                 sl.sendParticles(ParticleTypes.SPORE_BLOSSOM_AIR, citizen.getX(), citizen.getY() + 1.0D, citizen.getZ(), 10, 0.2D, 0.4D, 0.2D, 0.02D);
                 sl.playSound(null, citizen.blockPosition(), SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.NEUTRAL, 0.8F, 1.4F);
@@ -177,9 +205,9 @@ public class CitizenInfectionHandler {
     }
 
     /**
-     * Prevents Mycelium infection periodic damage from hurting Citizens.
-     * Canceling this damage stops citizens from stuttering while walking and
-     * prevents them from being kicked / bounced out of beds when sleeping.
+     * Handles incoming damage to Citizens:
+     * 1. Cancels internal mycelium overtake tick damage (stopping citizen walk-stuttering and bed-bouncing).
+     * 2. Applies Spore Defense research (+25%, +50%, +75%, +100%, +125% defense protection against Spore attacks).
      */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onCitizenIncomingDamage(LivingIncomingDamageEvent event) {
@@ -193,6 +221,62 @@ public class CitizenInfectionHandler {
             if (isMyceliumDamage) {
                 event.setCanceled(true);
                 event.setAmount(0.0F);
+                return;
+            }
+
+            // Spore Defense research protection (+25% to +125% defense)
+            boolean fromSpore = false;
+            Entity direct = source.getDirectEntity();
+            Entity attacker = source.getEntity();
+            if (isSporeEntity(direct) || isSporeEntity(attacker)) {
+                fromSpore = true;
+            }
+            if (msgId != null && (msgId.contains("spore") || msgId.contains("mycelium"))) {
+                fromSpore = true;
+            }
+
+            if (fromSpore && citizen.getCitizenColonyHandler() != null) {
+                IColony colony = citizen.getCitizenColonyHandler().getColonyOrRegister();
+                if (colony != null && colony.getResearchManager() != null) {
+                    double defenseBonus = colony.getResearchManager().getResearchEffects().getEffectStrength(EFFECT_SPORE_DEFENSE);
+                    if (defenseBonus > 0.0) {
+                        float reducedDamage = event.getAmount() / (1.0F + (float) defenseBonus);
+                        event.setAmount(reducedDamage);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Handles damage dealt by Citizens (or their projectiles / arrows / bullets / spells) to Spore mobs.
+     * Applies Spore Slayer research (+25%, +50%, +75%, +100%, +125% damage boost).
+     */
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void onDamageSporeMob(LivingIncomingDamageEvent event) {
+        if (event.getEntity() == null || event.getEntity().level().isClientSide()) {
+            return;
+        }
+
+        if (!isSporeEntity(event.getEntity())) {
+            return;
+        }
+
+        AbstractEntityCitizen citizen = null;
+        if (event.getSource().getEntity() instanceof AbstractEntityCitizen c) {
+            citizen = c;
+        } else if (event.getSource().getDirectEntity() instanceof Projectile p && p.getOwner() instanceof AbstractEntityCitizen c) {
+            citizen = c;
+        }
+
+        if (citizen != null && citizen.getCitizenColonyHandler() != null) {
+            IColony colony = citizen.getCitizenColonyHandler().getColonyOrRegister();
+            if (colony != null && colony.getResearchManager() != null) {
+                double dmgBonus = colony.getResearchManager().getResearchEffects().getEffectStrength(EFFECT_SPORE_DAMAGE);
+                if (dmgBonus > 0.0) {
+                    float boostedDamage = event.getAmount() * (1.0F + (float) dmgBonus);
+                    event.setAmount(boostedDamage);
+                }
             }
         }
     }
@@ -203,17 +287,18 @@ public class CitizenInfectionHandler {
     @SubscribeEvent
     public static void onCitizenDamage(LivingDamageEvent.Post event) {
         if (event.getEntity() instanceof AbstractEntityCitizen citizen) {
+            if (hasMyceliumImmunity(citizen)) {
+                return;
+            }
+
             Entity attacker = event.getSource().getEntity();
             if (attacker == null) {
                 attacker = event.getSource().getDirectEntity();
             }
 
             boolean fromSpore = false;
-            if (attacker != null) {
-                ResourceLocation attackerKey = BuiltInRegistries.ENTITY_TYPE.getKey(attacker.getType());
-                if (attackerKey != null && "spore".equals(attackerKey.getNamespace())) {
-                    fromSpore = true;
-                }
+            if (attacker != null && isSporeEntity(attacker)) {
+                fromSpore = true;
             }
 
             String msgId = event.getSource().getMsgId();
@@ -229,7 +314,7 @@ public class CitizenInfectionHandler {
 
     /**
      * Handles infection progression, natural expiration over time, hospital cure,
-     * and symptoms.
+     * immunity enforcement, and symptoms.
      */
     @SubscribeEvent
     public static void onEntityTick(EntityTickEvent.Post event) {
@@ -238,6 +323,14 @@ public class CitizenInfectionHandler {
         }
 
         if (citizen.level().isClientSide() || !citizen.isAlive()) {
+            return;
+        }
+
+        // If colony researched Mycelium Immunity, clear any preexisting infection immediately
+        if (hasMyceliumImmunity(citizen)) {
+            if (isCitizenInfected(citizen)) {
+                cureCitizen(citizen, "immunity");
+            }
             return;
         }
 
@@ -268,7 +361,6 @@ public class CitizenInfectionHandler {
             }
 
             // Case B: Natural recovery: The Mycelium status has run its normal duration and disappeared on its own.
-            // Citizens are not forced to visit the Hospital.
             if (!hasEffect) {
                 cureCitizen(citizen, "natural");
                 return;
@@ -331,11 +423,8 @@ public class CitizenInfectionHandler {
         Entity killer = event.getSource().getEntity();
         if (killer == null) killer = event.getSource().getDirectEntity();
         boolean killedBySpore = false;
-        if (killer != null) {
-            ResourceLocation killerKey = BuiltInRegistries.ENTITY_TYPE.getKey(killer.getType());
-            if (killerKey != null && "spore".equals(killerKey.getNamespace())) {
-                killedBySpore = true;
-            }
+        if (killer != null && isSporeEntity(killer)) {
+            killedBySpore = true;
         }
 
         if (isCitizenInfected(citizen) || killedBySpore) {

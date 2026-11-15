@@ -22,13 +22,13 @@ import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 public class ColonySpawnBlocker {
 
     /**
-     * Checks if a spawn is an allowed infection conversion.
+     * Checks if a spawn is an allowed infection conversion or official colony raid event.
      */
     public static boolean isAllowedInfectionSpawn(Mob mob, MobSpawnType spawnType) {
-        if (spawnType == MobSpawnType.CONVERSION) {
+        if (spawnType == MobSpawnType.CONVERSION || spawnType == MobSpawnType.EVENT) {
             return true;
         }
-        if (mob != null && mob.getPersistentData().getBoolean("SporeInfectionConversion")) {
+        if (mob != null && (mob.getPersistentData().getBoolean("SporeInfectionConversion") || mob.getPersistentData().getBoolean("GourmetCustomer"))) {
             return true;
         }
         return false;
@@ -36,11 +36,19 @@ public class ColonySpawnBlocker {
 
     /**
      * Checks if the entity is a restricted hostile mob or from the Spore mod.
+     * Never restricts Minecolonies native raiders/mobs or GourmetCraft customers.
      */
     public static boolean isRestrictedMob(Mob mob) {
         if (mob == null) return false;
 
         ResourceLocation key = BuiltInRegistries.ENTITY_TYPE.getKey(mob.getType());
+        if (key != null && "minecolonies".equals(key.getNamespace())) {
+            return false;
+        }
+        if (mob.getPersistentData().getBoolean("GourmetCustomer")) {
+            return false;
+        }
+
         if (key != null && "spore".equals(key.getNamespace())) {
             return true;
         }
